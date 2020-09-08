@@ -1,14 +1,14 @@
-# Web Auth Client Demo
-[![Netlify Status](https://api.netlify.com/api/v1/badges/899c65e4-301b-453b-8c35-e59b77e44016/deploy-status)](https://app.netlify.com/sites/webauth-client/deploys)
+# Image Gallery
+[![Netlify Status](https://api.netlify.com/api/v1/badges/58b30765-5c4e-4e99-a1fe-ded2b4fd4b49/deploy-status)](https://app.netlify.com/sites/wme-image-gallery/deploys)
 
-An application to test and showcase user authorization and authentication features for different API technologies.
+An application used to search and save images.
 
 <p align="center"> 
     <img src="https://github.com/wmemorgan/webauth-client/blob/auth-java/public/assets/webauth-client.png">
 </p>
 
-## Demo Sites
-- [User Auth Demo (Java Backend)](https://auth-java--webauth-client.netlify.app)
+## Demo Site
+- [Image Gallery](https://wme-image-gallery.netlify.app/)
 
 ## Features
 - OAuth 2 token based authentication
@@ -16,7 +16,7 @@ An application to test and showcase user authorization and authentication featur
 - Dynamic navigation menu based on user roles
 
 ## Installation
-- Clone this repo to your local machine using `https://github.com/wmemorgan/webauth-client.git`
+- Clone this repo to your local machine using `https://github.com/wmemorgan/image-gallery-app-frontend.git`
 
 ## Setup
 Go to your repo directory and enter the following commands to install project dependencies
@@ -31,6 +31,6 @@ $ yarn run start
 ```
 
 ## License
-[MIT](https://github.com/wmemorgan/webauth-client/blob/master/LICENSE)
+[MIT](https://github.com/wmemorgan/image-gallery-app-frontend/blob/master/LICENSE)
 
 
