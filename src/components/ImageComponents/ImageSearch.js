@@ -68,18 +68,22 @@ class ImageSearch extends Component {
 		return (
 			<>
 				<S.SearchForm onSubmit={this.submitHandler}>
-					<input
-						name="search"
-						placeholder="Search for Images"
-						onChange={this.handleInput}
-						value={this.state.search}
-					/>
-					<S.SearchIcon
-						className="fa fa-search"
-						type="submit"
-						value="&#xF002;"
-					></S.SearchIcon>
+					<S.FormInputContainer>
+						<input
+							name="search"
+							placeholder="Search for Images"
+							onChange={this.handleInput}
+							value={this.state.search}
+						/>
+						<S.SearchIcon
+							className="fa fa-search"
+							type="submit"
+							value="&#xF002;"
+						></S.SearchIcon>
+					</S.FormInputContainer>
+					<S.SearchButton type="submit" primary>Image Search</S.SearchButton>
 				</S.SearchForm>
+
 				{this.state.isLoading && (
 					<Loader type="Puff" color="#265077" height="60" width="60" />
 				)}
