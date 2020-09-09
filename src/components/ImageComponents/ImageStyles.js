@@ -61,7 +61,8 @@ export const ImageGalleryContainer = styled.div`
 `;
 
 export const ImagePreview = styled.div`
-	height: 300px;
+    height: 300px;
+    cursor: pointer;
 
 	img {
 		width: 100%;

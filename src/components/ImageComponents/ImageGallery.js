@@ -31,7 +31,7 @@ const ImageGallery = (props) => {
 						Close
 					</Button>
 					<Button variant="primary" onClick={handleClose}>
-						Save Changes
+						Save Image
 					</Button>
 				</Modal.Footer>
 			</Modal>
