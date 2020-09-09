@@ -13,6 +13,7 @@ export const SearchForm = styled.form`
     height: auto;
     ${flex("row", "center", "space-between")}
     margin: 5vh auto;
+    margin-bottom: 1vh;
     padding: 1rem;
     border: 1px solid ${colorScheme.secondaryBorderColor}
     border-radius: 25px;
@@ -25,11 +26,7 @@ export const SearchForm = styled.form`
     
     input::placeholder {
         font-size: ${fontSizing.sm};
-        letter-spacing: 0.15rem;
-    }
-
-    @media ${breakpoints[0]} {
-        margin-bottom: 1vh;
+        letter-spacing: 0.1rem;
     }
 `;
 
@@ -43,17 +40,11 @@ export const SearchIcon = styled.button`
 export const ImageGalleryContainer = styled.div`
     width: 100%;
     max-width: 800px;
-    margin: 5vh auto;
+    margin: 1vh auto;
     padding: 2rem;
     border: 1px solid ${colorScheme.secondaryBorderColor}
     border-radius: 5px;
     box-shadow: 0 8px 6px -6px rgba(0,0,0,0.75);
-
-    @media ${breakpoints[0]} {
-        margin: 1vh auto;
-    }
-
-
 `;
 
 export const ImagePreview = styled.div`
