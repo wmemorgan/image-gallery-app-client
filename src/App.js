@@ -4,7 +4,6 @@ import AppContainer from './components/DesignComponents/AppStyles'
 
 import Header from './components/SharedComponents/Header'
 import Routes from './Routes'
-import ImageSearch from './components/ImageComponents/ImageSearch'
 
 axios.defaults.baseURL = `${process.env.REACT_APP_API_ENDPOINT}`
 
