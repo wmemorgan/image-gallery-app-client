@@ -3,7 +3,7 @@ import axios from "axios"; /** External API calls only **/
 //import { connect } from 'react-redux' /** Redux only **/
 import * as S from "../SharedComponents/FormStyles";
 import Button from "../DesignComponents/Button";
-
+import { EventEmitter } from "../../utils/events"
 //import {  } from '../../actions' /** Redux only **/
 
 /**
@@ -59,11 +59,14 @@ class Form extends Component {
 			};
 			// send login data to auth API
 			const data = await axios.post(endpoint, credentials, headers);
-			console.log(`LOGIN SUCCESS `, data);
-			localStorage.setItem("token", data.data.access_token);
-			this.setState({
-				status: data.status
-			});
+			if (data.status === 200) {
+				console.log(`LOGIN SUCCESS `, data);
+				localStorage.setItem("token", data.data.access_token);
+				this.setState({
+					status: data.status,
+				}, () => EventEmitter.dispatch("getUser"));
+			}
+
 		} catch (err) {
 			console.log(`LOGIN FAILURE `, err.response);
 			console.error(err.response);

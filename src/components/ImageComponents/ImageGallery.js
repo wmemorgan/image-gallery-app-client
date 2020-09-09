@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios"
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { Carousel } from "react-responsive-carousel";
@@ -8,6 +9,26 @@ import * as S from "./ImageStyles";
 const ImageGallery = (props) => {
 	const [show, setShow] = useState(false);
 	const [currentpic, setCurrentPic] = useState("");
+
+	const handleSaveImage = async (e) => {
+		e.preventDefault();
+		try {
+			const newImage = {
+				imageurl: currentpic,
+				description: "",
+				thumbnailurl: "",
+			};
+
+			const endpoint = "/images/image";
+			const data = await axios.post(endpoint, newImage);
+			console.log(`ADD IMAGE `, data);
+			if (data.status === 201) {
+				handleClose();
+			}
+		} catch (err) {
+			console.error(err.response);
+		}
+	};
 	const handleClose = () => setShow(false);
 	const handleShow = (e) => {
 		setShow(true);
@@ -18,6 +39,7 @@ const ImageGallery = (props) => {
 		const currentImage = e.currentTarget.getElementsByTagName("img")[0];
 		setCurrentPic(currentImage.getAttribute("src"));
 	};
+ 
 	const { searchresults } = props;
 	console.log(`searchresults`, searchresults);
 	return (
@@ -30,7 +52,7 @@ const ImageGallery = (props) => {
 					<Button variant="secondary" onClick={handleClose}>
 						Close
 					</Button>
-					<Button variant="primary" onClick={handleClose}>
+					<Button variant="primary" onClick={handleSaveImage}>
 						Save Image
 					</Button>
 				</Modal.Footer>
