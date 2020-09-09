@@ -4,7 +4,6 @@ import {
 	colorScheme,
 	fontSizing,
 	flex,
-	breakpoints,
 } from "../DesignComponents/theme";
 import Button from "../DesignComponents/Button"
 
