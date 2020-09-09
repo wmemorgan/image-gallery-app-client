@@ -6,6 +6,9 @@ import * as S from "./ImageStyles";
 
 const IMAGE_SEARCH_API = "https://wme-image-search-api.herokuapp.com/api/search";
 
+/**
+ * Image search component which uses the custom search engine
+ */
 class ImageSearch extends Component {
 	state = {
 		search: "",
@@ -40,6 +43,9 @@ class ImageSearch extends Component {
 		});
 	}
 
+	/**
+	 * Retrieve list of image records from the custom search API
+	 */
 	getImages = async () => {
 		try {
 			const endpoint = IMAGE_SEARCH_API;
@@ -50,7 +56,6 @@ class ImageSearch extends Component {
 			};
 
 			const data = await axios.post(endpoint, searchData);
-			console.log("GETIMAGES: ", data.data);
 			this.setState({ searchresults: data.data }, () => this.resetForm());
 		} catch (err) {
 			this.setState({

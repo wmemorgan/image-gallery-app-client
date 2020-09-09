@@ -32,7 +32,3 @@ function handleFirstTab(e) {
 }
 
 export default App;
-
-/*
-<Routes />
-*/

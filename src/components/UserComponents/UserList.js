@@ -12,7 +12,6 @@ import * as S from './UserStyles'
  * @param {C} props 
  */
 const UserList = props => {
-  console.log(`USERLIST: `, props);
   return (
 		<S.UserListContainer>
 			<h2>User List</h2>

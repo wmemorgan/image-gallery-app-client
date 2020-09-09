@@ -6,6 +6,9 @@ import Loader from "react-loader-spinner";
 import { EventEmitter } from "../../utils/events";
 import * as S from "./ImageStyles";
 
+/**
+ * Component manages user image library
+ */
 export class ImageLibrary extends Component {
 	state = {
 		images: [],
@@ -16,12 +19,14 @@ export class ImageLibrary extends Component {
 		imageid: null,
 	};
 
+	/**
+	 * Retrieve only the images of the user currently signed on
+	 */
 	getUserImages = async () => {
 		try {
 			const endpoint = "/images/user";
 			const response = await axios.get(endpoint);
 			if (response.status === 200 && response.data) {
-				console.log(`USER IMAGES `, response.data);
 				this.setState({ images: response.data });
 			}
 		} catch (err) {
@@ -33,8 +38,8 @@ export class ImageLibrary extends Component {
 		try {
 			const endpoint = `/images/image/${this.state.imageid}`;
 			const response = await axios.delete(endpoint);
-            if (response.status === 200) {
-                this.getUserImages();
+			if (response.status === 200) {
+				this.getUserImages();
 				this.handleClose();
 			}
 		} catch (err) {
@@ -42,19 +47,20 @@ export class ImageLibrary extends Component {
 		}
 	};
 
+	/**
+	 * Get the element attributes of the selected image
+	 *
+	 * @param {*} e
+	 */
 	getCurrentImageAttributes = (e) => {
 		e.preventDefault();
 		const currentImage = e.currentTarget;
-		console.log(`CURRENT IMAGE `, currentImage);
-		this.setState(
-			{
-				imageid: currentImage.getAttribute("id"),
-				imageurl: currentImage.getAttribute("imageurl"),
-				thumbnailurl: currentImage.getAttribute("thumbnail"),
-				description: currentImage.getAttribute("description"),
-			},
-			() => console.log(`THIS STATE: `, this.state)
-		);
+		this.setState({
+			imageid: currentImage.getAttribute("id"),
+			imageurl: currentImage.getAttribute("imageurl"),
+			thumbnailurl: currentImage.getAttribute("thumbnail"),
+			description: currentImage.getAttribute("description"),
+		});
 	};
 
 	handleShow = (e) => {

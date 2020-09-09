@@ -30,7 +30,7 @@ class Routes extends Component {
 		};
 		EventEmitter.subscribe("getData", (event) => this.getDataHandler(event));
 		EventEmitter.subscribe("getUser", (event) => this.getUser(event));
-		//EventEmitter.subscribe("verifyAdmin", (event) => this.verifyAdmin(event));
+		EventEmitter.subscribe("verifyAdmin", (event) => this.verifyAdmin(event));
 	}
 
 	/**
@@ -40,14 +40,10 @@ class Routes extends Component {
 		try {
 			const endpoint = "/users/users";
 			const data = await axios.get(endpoint);
-			console.log(`GETDATA: `, data);
-			this.setState(
-				{
-					status: data.status,
-					userList: data.data,
-				},
-				() => console.log(this.state.status)
-			);
+			this.setState({
+				status: data.status,
+				userList: data.data,
+			});
 		} catch (err) {
 			console.error(err.response);
 			this.setState({
@@ -59,7 +55,6 @@ class Routes extends Component {
 
 	getDataHandler = () => {
 		const token = localStorage.getItem("token");
-		console.log(`Is there a token: `, token);
 		if (token) {
 			this.getData();
 		}
@@ -70,7 +65,6 @@ class Routes extends Component {
 			const endpoint = `/users/user/profile`;
 
 			const data = await axios.get(endpoint);
-			console.log(`GET USER DATA `, data);
 			// Populate locale state
 			const {
 				username,
@@ -103,8 +97,11 @@ class Routes extends Component {
 		}
 	};
 
+	/**
+	 * Verify authenticated user has ADMIN rights
+	 * Retrieve all API user data if current user has access
+	 */
 	verifyAdmin = () => {
-		console.log(`this.state.roles, `, this.state.roles);
 		if (
 			this.state.roles.length > 0 &&
 			this.state.roles.find((role) => role.role.name.toUpperCase() === "ADMIN")
@@ -117,9 +114,8 @@ class Routes extends Component {
 	};
 
 	componentDidMount() {
-		console.log(`CDM: `, this.state.userList);
 		if (this.state.userList.length === 0) {
-			this.getDataHandler();
+			this.verifyAdmin();
 		}
 	}
 
@@ -142,7 +138,6 @@ class Routes extends Component {
 				<Route path="/login" component={Login} />
 				<Route path="/signup" component={Signup} />
 				<ProtectedRoute path="/imagesearch" component={ImageSearch} />
-				{/* <ProtectedRoute path="/userimages" component={ImageLibrary} /> */}
 				<Route
 					path="/userimages"
 					render={(props) => <ImageLibrary {...props} {...this.state} />}
@@ -166,8 +161,3 @@ class Routes extends Component {
 }
 
 export default withRouter(Routes);
-
-/* Turn off authentication
-
-
-*/
