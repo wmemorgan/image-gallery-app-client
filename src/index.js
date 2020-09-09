@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
+import "bootstrap/dist/css/bootstrap.min.css";
 import theme from './components/DesignComponents/theme'
 import GlobalStyle from './components/DesignComponents/GlobalStyle'
 

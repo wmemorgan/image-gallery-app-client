@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import ImageList from "../ImageComponents/ImageList";
+import Loader from "react-loader-spinner";
+import ImageGallery from "../ImageComponents/ImageGallery";
 import * as S from "./ImageStyles";
 
 class ImageSearch extends Component {
@@ -9,6 +10,7 @@ class ImageSearch extends Component {
 		status: null,
 		searchresults: [],
 		errorMesage: null,
+		isLoading: false,
 	};
 
 	/**
@@ -19,6 +21,12 @@ class ImageSearch extends Component {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
+	toggleLoader() {
+		this.setState((prev) => ({
+			isLoading: !prev.isLoading,
+		}));
+	}
+
 	resetForm() {
 		// reset form fields
 		this.setState({
@@ -26,6 +34,7 @@ class ImageSearch extends Component {
 			offset: 1,
 			status: null,
 			errorMesage: null,
+			isLoading: false
 		});
 	}
 
@@ -52,26 +61,34 @@ class ImageSearch extends Component {
 	submitHandler = (e) => {
 		e.preventDefault();
 		this.getImages();
+		this.toggleLoader();
 	};
 
 	render() {
 		return (
 			<>
 				<S.SearchForm onSubmit={this.submitHandler}>
-					<input
-						name="search"
-						placeholder="Search for Images"
-						onChange={this.handleInput}
-						value={this.state.search}
-					/>
-					<S.SearchIcon
-						className="fa fa-search"
-						type="submit"
-						value="&#xF002;"
-					></S.SearchIcon>
+					<S.FormInputContainer>
+						<input
+							name="search"
+							placeholder="Search for Images"
+							onChange={this.handleInput}
+							value={this.state.search}
+						/>
+						<S.SearchIcon
+							className="fa fa-search"
+							type="submit"
+							value="&#xF002;"
+						></S.SearchIcon>
+					</S.FormInputContainer>
+					<S.SearchButton type="submit" primary>Image Search</S.SearchButton>
 				</S.SearchForm>
+
+				{this.state.isLoading && (
+					<Loader type="Puff" color="#265077" height="60" width="60" />
+				)}
 				{this.state.searchresults.length > 0 ? (
-					<ImageList searchresults={this.state.searchresults} />
+					<ImageGallery searchresults={this.state.searchresults} />
 				) : (
 					""
 				)}
