@@ -5,7 +5,6 @@ export const FormContainer = styled.div`
   width: 600px;
   ${flex('column', 'center', 'center')};
   margin: 20px 0;
-  border-radius: 5px;
   border: 1px solid ${colorScheme.secondaryBorderColor}
   border-radius: 5px;
   box-shadow: 0 8px 6px -6px rgba(0,0,0,0.75);
