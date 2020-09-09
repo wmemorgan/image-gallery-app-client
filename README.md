@@ -1,19 +1,20 @@
-# Image Gallery
+# Image Gallery App
 [![Netlify Status](https://api.netlify.com/api/v1/badges/58b30765-5c4e-4e99-a1fe-ded2b4fd4b49/deploy-status)](https://app.netlify.com/sites/wme-image-gallery/deploys)
 
 An application used to search and save images.
 
 <p align="center"> 
-    <img src="https://github.com/wmemorgan/webauth-client/blob/auth-java/public/assets/webauth-client.png">
+    <img src="https://github.com/wmemorgan/image-gallery-app-frontend/blob/master/public/assets/screenshot.png">
 </p>
 
 ## Demo Site
-- [Image Gallery](https://wme-image-gallery.netlify.app/)
+- [Image Gallery App](https://wme-image-gallery.netlify.app/)
 
 ## Features
-- OAuth 2 token based authentication
-- Protected routes
-- Dynamic navigation menu based on user roles
+- Search images using my [custom search engine](https://github.com/wmemorgan/image-search-api-v2)
+- Navigate through search results
+- Select and save an image to your library
+- View and delete images in your library
 
 ## Installation
 - Clone this repo to your local machine using `https://github.com/wmemorgan/image-gallery-app-frontend.git`

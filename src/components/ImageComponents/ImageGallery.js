@@ -6,12 +6,23 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import * as S from "./ImageStyles";
 
+/**
+ * Component which displays the search results.
+ * Also allows a user to select and save an image from the search results.
+ * 
+ * @param {*} props - search results
+ */
 const ImageGallery = (props) => {
 	const [show, setShow] = useState(false);
 	const [currentpic, setCurrentPic] = useState("");
 	const [currentthumbnail, setCurrentThumbnail] = useState("");
 	const [description, setCurrentDescription] = useState("");
 
+	/**
+	 * Save image to user library
+	 *
+	 * @param {*} e
+	 */
 	const handleSaveImage = async (e) => {
 		e.preventDefault();
 		try {
@@ -31,11 +42,27 @@ const ImageGallery = (props) => {
 			console.error(err.response);
 		}
 	};
+
+	/**
+	 * Hide modal
+	 */
 	const handleClose = () => setShow(false);
+
+	/**
+	 * Display model and obtain attributes of the selected image
+	 *
+	 * @param {*} e
+	 */
 	const handleShow = (e) => {
 		setShow(true);
 		getCurrentImageAttributes(e);
 	};
+
+	/**
+	 * Get the element attributes of the selected image
+	 *
+	 * @param {*} e
+	 */
 	const getCurrentImageAttributes = (e) => {
 		e.preventDefault();
 		const currentImage = e.currentTarget.getElementsByTagName("img")[0];
@@ -45,7 +72,6 @@ const ImageGallery = (props) => {
 	};
 
 	const { searchresults } = props;
-	console.log(`searchresults`, searchresults);
 	return (
 		<S.ImageGalleryContainer>
 			<Modal show={show} onHide={handleClose}>
