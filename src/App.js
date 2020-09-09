@@ -14,11 +14,11 @@ axios.defaults.baseURL = `${process.env.REACT_APP_API_ENDPOINT}`
 const App = () => {
   window.addEventListener("keydown", handleFirstTab);
   return (
-    <AppContainer>
-      <Header />
-      <ImageSearch />
-    </AppContainer>
-  )
+		<AppContainer>
+			<Header />
+			<Routes />
+		</AppContainer>
+	);
 }
 
 /**
