@@ -97,6 +97,7 @@ class User extends Component {
 				lastname,
 				primaryemail,
 				roles,
+				images,
 				userid,
 			} = data.data;
 
@@ -108,6 +109,7 @@ class User extends Component {
 					lastname,
 					primaryemail,
 					roles,
+					images
 				},
 				() => this.verifyAdmin()
 			);
