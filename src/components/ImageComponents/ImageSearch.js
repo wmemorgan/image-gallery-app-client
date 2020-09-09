@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import ImageList from "../ImageComponents/ImageList";
+import ImageGallery from "../ImageComponents/ImageGallery";
 import * as S from "./ImageStyles";
 
 class ImageSearch extends Component {
@@ -71,7 +71,7 @@ class ImageSearch extends Component {
 					></S.SearchIcon>
 				</S.SearchForm>
 				{this.state.searchresults.length > 0 ? (
-					<ImageList searchresults={this.state.searchresults} />
+					<ImageGallery searchresults={this.state.searchresults} />
 				) : (
 					""
 				)}
