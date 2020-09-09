@@ -4,6 +4,8 @@ import Loader from "react-loader-spinner";
 import ImageGallery from "../ImageComponents/ImageGallery";
 import * as S from "./ImageStyles";
 
+const IMAGE_SEARCH_API = "https://wme-image-search-api.herokuapp.com/api/search";
+
 class ImageSearch extends Component {
 	state = {
 		search: "",
@@ -40,7 +42,7 @@ class ImageSearch extends Component {
 
 	getImages = async () => {
 		try {
-			const endpoint = "https://wme-image-search-api.herokuapp.com/api/search";
+			const endpoint = IMAGE_SEARCH_API;
 
 			const searchData = {
 				search: this.state.search,
