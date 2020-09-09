@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import Loader from "react-loader-spinner";
 import ImageGallery from "../ImageComponents/ImageGallery";
 import * as S from "./ImageStyles";
 
@@ -9,6 +10,7 @@ class ImageSearch extends Component {
 		status: null,
 		searchresults: [],
 		errorMesage: null,
+		isLoading: false,
 	};
 
 	/**
@@ -19,6 +21,12 @@ class ImageSearch extends Component {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
+	toggleLoader() {
+		this.setState((prev) => ({
+			isLoading: !prev.isLoading,
+		}));
+	}
+
 	resetForm() {
 		// reset form fields
 		this.setState({
@@ -26,6 +34,7 @@ class ImageSearch extends Component {
 			offset: 1,
 			status: null,
 			errorMesage: null,
+			isLoading: false
 		});
 	}
 
@@ -52,6 +61,7 @@ class ImageSearch extends Component {
 	submitHandler = (e) => {
 		e.preventDefault();
 		this.getImages();
+		this.toggleLoader();
 	};
 
 	render() {
@@ -70,6 +80,9 @@ class ImageSearch extends Component {
 						value="&#xF002;"
 					></S.SearchIcon>
 				</S.SearchForm>
+				{this.state.isLoading && (
+					<Loader type="Puff" color="#265077" height="60" width="60" />
+				)}
 				{this.state.searchresults.length > 0 ? (
 					<ImageGallery searchresults={this.state.searchresults} />
 				) : (
