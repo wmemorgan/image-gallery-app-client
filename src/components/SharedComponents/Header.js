@@ -53,6 +53,10 @@ class Header extends Component {
 		}
 	};
 
+	componentDidMount() {
+		this.updateMenu();
+	}
+
 	render() {
 		return (
 			<S.HeaderContainer>
@@ -82,7 +86,14 @@ class Header extends Component {
 									<NavLink to="/users" onClick={this.toggleDisplay}>
 										Users
 									</NavLink>
-								)}
+									)}
+									
+								<NavLink to="/userimages" onClick={this.toggleDisplay}>
+									Library
+								</NavLink>
+								<NavLink to="/profile" onClick={this.toggleDisplay}>
+									Profile
+								</NavLink>
 								<div className="logout" onClick={this.logout}>
 									Logout
 								</div>
