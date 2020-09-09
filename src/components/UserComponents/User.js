@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import axios from 'axios'
-import { EventEmitter } from '../../utils/events'
+import React, { Component } from "react";
+import axios from "axios";
+import { EventEmitter } from "../../utils/events";
 
-import * as S from './UserStyles'
-import Button from '../DesignComponents/Button'
+import * as S from "./UserStyles";
+import Button from "../DesignComponents/Button";
 
 /**
- * User Component used for displaying, updating, 
+ * User Component used for displaying, updating,
  * and deleting individual user record
  */
 class User extends Component {
@@ -19,7 +19,8 @@ class User extends Component {
 			firstname: "",
 			lastname: "",
 			primaryemail: "",
-			roles: "",
+			roles: [],
+			images: [],
 			status: null,
 			errorMesage: "",
 		};
@@ -35,19 +36,18 @@ class User extends Component {
 			lastname,
 			primaryemail,
 			roles,
+			images,
 			userid,
 		} = this.props.user;
-		this.setState(
-			{
-				id: userid,
-				username,
-				firstname,
-				lastname,
-				primaryemail,
-				roles,
-			},
-			() => this.verifyAdmin()
-		);
+		this.setState({
+			id: userid,
+			username,
+			firstname,
+			lastname,
+			primaryemail,
+			roles,
+			images,
+		});
 	};
 
 	/**
@@ -56,40 +56,39 @@ class User extends Component {
 	 */
 	handleInput = (e) => {
 		this.setState({ [e.target.name]: e.target.value });
-  };
-  
-  resetForm() {
-    this.setState({
-      username: "",
-      firstname: "",
-      lastname: "",
-      primaryemail: "",
-    });
-  }
+	};
+
+	resetForm() {
+		this.setState({
+			username: "",
+			firstname: "",
+			lastname: "",
+			primaryemail: "",
+		});
+	}
 
 	toggleEdit() {
-    this.setState(
-      (prevState) => ({ edit: !prevState.edit }),
-      () => this.getUser()
+		this.setState(
+			(prevState) => ({ edit: !prevState.edit }),
+			() => this.getUser()
 		);
 	}
 
-  /**
-   * Get profile information of authenticated user
-   */
-  getUser = async () => {
-    let endpoint;
-    try {
-      // Retrieve user info (ADMIN access)
-      if (this.state.id && localStorage.getItem("isAdmin")) {
-        endpoint = `/users/user/${this.state.id}`
-      } else {
-        // Retrieve user profile
-        endpoint = `/users/user/profile`;
-      }
+	/**
+	 * Get profile information of authenticated user
+	 */
+	getUser = async () => {
+		let endpoint;
+		try {
+			// Retrieve user info (ADMIN access)
+			if (this.state.id && localStorage.getItem("isAdmin")) {
+				endpoint = `/users/user/${this.state.id}`;
+			} else {
+				// Retrieve user profile
+				endpoint = `/users/user/profile`;
+			}
 
-			const data = await axios.get(endpoint);
-			console.log(`GET USER DATA `, data);
+			const response = await axios.get(endpoint);
 			// Populate locale state
 			const {
 				username,
@@ -99,25 +98,22 @@ class User extends Component {
 				roles,
 				images,
 				userid,
-			} = data.data;
+			} = response.data;
 
-			this.setState(
-				{
-					id: userid,
-					username,
-					firstname,
-					lastname,
-					primaryemail,
-					roles,
-					images
-				},
-				() => this.verifyAdmin()
-			);
+			this.setState({
+				id: userid,
+				username,
+				firstname,
+				lastname,
+				primaryemail,
+				roles,
+				images,
+			}, () => EventEmitter.dispatch("verifyAdmin"));
 		} catch (err) {
 			console.error(err.response);
 			this.setState({
 				status: err.status,
-				errorMessage: err.response.data.error,
+				errorMessage: err.response,
 			});
 		}
 	};
@@ -133,7 +129,6 @@ class User extends Component {
 		};
 
 		try {
-			console.log(`USER ID: `, this.props.user);
 			const endpoint = "/users/user";
 			const data = await axios.patch(
 				`${endpoint}/${this.state.id}`,
@@ -141,7 +136,7 @@ class User extends Component {
 			);
 			if (data) {
 				this.toggleEdit();
-        this.getUser();
+				this.getUser();
 			}
 		} catch (err) {
 			console.error(err.response);
@@ -159,9 +154,8 @@ class User extends Component {
 			const endpoint = "/users/user";
 			const data = await axios.delete(`${endpoint}/${id}`);
 			if (data) {
-				console.log(`${this.state.username} successfully deleted`);
-        // reset form fields
-        this.resetForm();
+				// reset form fields
+				this.resetForm();
 				this.props.history.push("/");
 			}
 		} catch (err) {
@@ -171,23 +165,6 @@ class User extends Component {
 				errorMessage: err.response.data.error,
 			});
 		}
-	};
-
-  /**
-   * Verify authenticated user has ADMIN rights
-   * Retrieve all API user data if current user has access
-   */
-	verifyAdmin = () => {
-		console.log(`this.state.roles, `, this.state.roles);
-		if (
-			this.state.roles.length > 0 &&
-			this.state.roles.find((role) => role.role.name.toUpperCase() === "ADMIN")
-		) {
-			localStorage.setItem("isAdmin", true);
-			EventEmitter.dispatch("getData");
-		}
-
-		EventEmitter.dispatch("updateMenu");
 	};
 
 	componentDidMount() {
@@ -298,4 +275,3 @@ class User extends Component {
 }
 
 export default User;
-
