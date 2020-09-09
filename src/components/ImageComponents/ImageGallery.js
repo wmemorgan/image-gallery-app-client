@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios"
+import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { Carousel } from "react-responsive-carousel";
@@ -9,14 +9,16 @@ import * as S from "./ImageStyles";
 const ImageGallery = (props) => {
 	const [show, setShow] = useState(false);
 	const [currentpic, setCurrentPic] = useState("");
+	const [currentthumbnail, setCurrentThumbnail] = useState("");
+	const [description, setCurrentDescription] = useState("");
 
 	const handleSaveImage = async (e) => {
 		e.preventDefault();
 		try {
 			const newImage = {
 				imageurl: currentpic,
-				description: "",
-				thumbnailurl: "",
+				description: description,
+				thumbnailurl: currentthumbnail,
 			};
 
 			const endpoint = "/images/image";
@@ -32,21 +34,23 @@ const ImageGallery = (props) => {
 	const handleClose = () => setShow(false);
 	const handleShow = (e) => {
 		setShow(true);
-		keypress(e)
-	}
-	const keypress = (e) => {
+		getCurrentImageAttributes(e);
+	};
+	const getCurrentImageAttributes = (e) => {
 		e.preventDefault();
 		const currentImage = e.currentTarget.getElementsByTagName("img")[0];
 		setCurrentPic(currentImage.getAttribute("src"));
+		setCurrentThumbnail(currentImage.getAttribute("thumbnail"));
+		setCurrentDescription(currentImage.getAttribute("description"));
 	};
- 
+
 	const { searchresults } = props;
 	console.log(`searchresults`, searchresults);
 	return (
 		<S.ImageGalleryContainer>
 			<Modal show={show} onHide={handleClose}>
 				<Modal.Body>
-					<img src={currentpic} alt="current"/>
+					<img src={currentpic} alt="current" />
 				</Modal.Body>
 				<Modal.Footer>
 					<Button variant="secondary" onClick={handleClose}>
@@ -62,9 +66,15 @@ const ImageGallery = (props) => {
 					<S.ImagePreview
 						key={result.id}
 						imageurl={result.url}
+						thumbnail={result.thumbnail}
 						onClick={handleShow}
 					>
-						<img src={result.url} alt="search result"/>
+						<img
+							src={result.url}
+							alt="search result"
+							thumbnail={result.thumbnail}
+							description={result.snippet}
+						/>
 					</S.ImagePreview>
 				))}
 			</Carousel>

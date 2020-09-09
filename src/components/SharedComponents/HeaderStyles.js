@@ -62,7 +62,7 @@ export const HeaderContainer = styled.header`
 
 export const Nav = styled.nav`
   width: 90%;
-  max-width: 600px;
+  max-width: 800px;
   ${flex('row', 'center', 'space-between')}
   & * {
     text-decoration: none;
@@ -89,8 +89,8 @@ export const Nav = styled.nav`
 `
 
 export const CrudNav = styled.div`
-  width: 30%;
-  ${flex('row', 'center', 'space-between')};
+  width: 40%;
+  ${flex('row', 'center', 'space-evenly')};
 
   @media ${breakpoints[0]} {
     width: 100%;

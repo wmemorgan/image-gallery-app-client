@@ -9,6 +9,7 @@ import ProtectedRoute from "./components/AuthComponents/ProtectedRoute";
 import UserList from "./components/UserComponents/UserList";
 import User from "./components/UserComponents/User";
 import ImageSearch from "./components/ImageComponents/ImageSearch";
+import ImageLibrary from "./components/ImageComponents/ImageLibrary";
 
 /**
  * Define all application routes
@@ -141,8 +142,13 @@ class Routes extends Component {
 				<Route path="/login" component={Login} />
 				<Route path="/signup" component={Signup} />
 				<ProtectedRoute path="/imagesearch" component={ImageSearch} />
+				{/* <ProtectedRoute path="/userimages" component={ImageLibrary} /> */}
+				<Route
+					path="/userimages"
+					render={(props) => <ImageLibrary {...props} {...this.state} />}
+				/>
 				<ProtectedRoute path="/profile" component={User} />
-				<ProtectedRoute
+				<Route
 					exact
 					path="/users"
 					render={(props) => <UserList {...props} {...this.state} />}
