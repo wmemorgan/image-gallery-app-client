@@ -3,13 +3,15 @@ import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { Carousel } from "react-responsive-carousel";
+import { EventEmitter } from "../../utils/events";
+
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import * as S from "./ImageStyles";
 
 /**
  * Component which displays the search results.
  * Also allows a user to select and save an image from the search results.
- * 
+ *
  * @param {*} props - search results
  */
 const ImageGallery = (props) => {
@@ -36,6 +38,7 @@ const ImageGallery = (props) => {
 			const data = await axios.post(endpoint, newImage);
 			console.log(`ADD IMAGE `, data);
 			if (data.status === 201) {
+				EventEmitter.dispatch("getUser");
 				handleClose();
 			}
 		} catch (err) {
