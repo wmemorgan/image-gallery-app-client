@@ -96,7 +96,7 @@ class Routes extends Component {
 			console.error(err.response);
 			this.setState({
 				status: err.status,
-				errorMessage: err.response.data.error,
+				errorMessage: err
 			});
 		}
 	};
