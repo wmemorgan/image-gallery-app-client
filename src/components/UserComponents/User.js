@@ -37,10 +37,10 @@ class User extends Component {
 			primaryemail,
 			roles,
 			images,
-			userid,
-		} = this.props.user;
+			id,
+		} = this.props.loggedinuser;
 		this.setState({
-			id: userid,
+			id: id,
 			username,
 			firstname,
 			lastname,
@@ -81,8 +81,12 @@ class User extends Component {
 		let endpoint;
 		try {
 			// Retrieve user info (ADMIN access)
-			if (this.state.id && localStorage.getItem("isAdmin")) {
-				endpoint = `/users/user/${this.state.id}`;
+			if (
+				localStorage.getItem("isAdmin") &&
+				this.props.loggedinuser.id !== this.props.user.userid
+			) {
+				console.log(`NO MATCH GET USER INFO FROM API`)
+				endpoint = `/users/user/${this.props.user.userid}`;
 			} else {
 				// Retrieve user profile
 				endpoint = `/users/user/profile`;
@@ -100,15 +104,18 @@ class User extends Component {
 				userid,
 			} = response.data;
 
-			this.setState({
-				id: userid,
-				username,
-				firstname,
-				lastname,
-				primaryemail,
-				roles,
-				images,
-			}, () => EventEmitter.dispatch("verifyAdmin"));
+			this.setState(
+				{
+					id: userid,
+					username,
+					firstname,
+					lastname,
+					primaryemail,
+					roles,
+					images,
+				},
+				() => EventEmitter.dispatch("verifyAdmin")
+			);
 		} catch (err) {
 			console.error(err.response);
 			this.setState({
@@ -168,11 +175,15 @@ class User extends Component {
 	};
 
 	componentDidMount() {
-		if (this.props.user) {
+		console.log(`USER CDM PROPS`, this.props);
+		if (!this.props.user && this.props.loggedinuser.id) {
+			console.log(`PASSING USER PROPS`)
 			this.prePopulateForm();
 		} else {
+			console.log(`GETTING USER DATA`)
 			this.getUser();
 		}
+
 	}
 
 	render() {
