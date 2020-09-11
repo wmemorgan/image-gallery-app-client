@@ -21,12 +21,14 @@ class Routes extends Component {
 			status: null,
 			userList: [],
 			errorMessage: "",
-			id: null,
-			username: "",
-			firstname: "",
-			lastname: "",
-			primaryemail: "",
-			roles: "",
+			loggedinuser: {
+				id: null,
+				username: "",
+				firstname: "",
+				lastname: "",
+				primaryemail: "",
+				roles: "",
+			},
 		};
 		EventEmitter.subscribe("getData", (event) => this.getDataHandler(event));
 		EventEmitter.subscribe("getUser", (event) => this.getUser(event));
@@ -64,7 +66,7 @@ class Routes extends Component {
 		try {
 			const endpoint = `/users/user/profile`;
 
-			const data = await axios.get(endpoint);
+			const response = await axios.get(endpoint);
 			// Populate locale state
 			const {
 				username,
@@ -74,17 +76,19 @@ class Routes extends Component {
 				roles,
 				images,
 				userid,
-			} = data.data;
+			} = response.data;
 
 			this.setState(
 				{
-					id: userid,
-					username,
-					firstname,
-					lastname,
-					primaryemail,
-					roles,
-					images,
+					loggedinuser: {
+						id: userid,
+						username,
+						firstname,
+						lastname,
+						primaryemail,
+						roles,
+						images,
+					},
 				},
 				() => this.verifyAdmin()
 			);
@@ -103,8 +107,8 @@ class Routes extends Component {
 	 */
 	verifyAdmin = () => {
 		if (
-			this.state.roles.length > 0 &&
-			this.state.roles.find((role) => role.role.name.toUpperCase() === "ADMIN")
+			this.state.loggedinuser.roles.length > 0 &&
+			this.state.loggedinuser.roles.find((role) => role.role.name.toUpperCase() === "ADMIN")
 		) {
 			localStorage.setItem("isAdmin", true);
 			EventEmitter.dispatch("getData");
@@ -140,9 +144,16 @@ class Routes extends Component {
 				<ProtectedRoute path="/imagesearch" component={ImageSearch} />
 				<Route
 					path="/userimages"
-					render={(props) => <ImageLibrary {...props} {...this.state} />}
+					render={(props) => (
+						<ImageLibrary {...props} loggedinuser={this.state.loggedinuser} />
+					)}
 				/>
-				<ProtectedRoute path="/profile" component={User} />
+				<Route
+					path="/profile"
+					render={(props) => (
+						<User {...props} loggedinuser={this.state.loggedinuser} />
+					)}
+				/>
 				<Route
 					exact
 					path="/users"
