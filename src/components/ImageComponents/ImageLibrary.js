@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import Loader from "react-loader-spinner";
 import { EventEmitter } from "../../utils/events";
 import * as S from "./ImageStyles";
 
@@ -38,7 +37,7 @@ export class ImageLibrary extends Component {
 	/**
 	 * Retrieve images from props if available
 	 */
-	populateUserImages = () => {
+	getPropsUserImages = () => {
 		if (this.props.loggedinuser.images.length > 0) {
 			this.setState({ images: this.props.loggedinuser.images });
 		} else {
@@ -48,7 +47,7 @@ export class ImageLibrary extends Component {
 
 	handleUserImages = () => {
 		if (this.props.loggedinuser.id) {
-			this.populateUserImages();
+			this.getPropsUserImages();
 		} else {
 			this.getUserImages();
 			EventEmitter.dispatch("getUser");
@@ -95,7 +94,6 @@ export class ImageLibrary extends Component {
 	};
 
 	componentDidMount() {
-		console.log(`LIBRARY CDM: `, this.props.loggedinuser);
 		this.handleUserImages();
 	}
 
@@ -105,7 +103,6 @@ export class ImageLibrary extends Component {
 			this.props.loggedinuser.images.length !==
 				prevProps.loggedinuser.images.length
 		) {
-			console.log(`UPDATE LIBRARY!!!`);
 			this.handleUserImages();
 		}
 	}
@@ -130,28 +127,21 @@ export class ImageLibrary extends Component {
 					</Modal.Footer>
 				</Modal>
 				{images ? (
-					images.length > 0 ? (
-						<S.ImageListContainer>
-							{images.map((image) => (
-								<S.ImageThumbNail key={image.imageid}>
-									<img
-										src={image.thumbnailurl}
-										thumbnail={image.thumbnailurl}
-										imageurl={image.imageurl}
-										description={image.description}
-										alt="search result"
-										id={image.imageid}
-										onClick={this.handleShow}
-									/>
-								</S.ImageThumbNail>
-							))}
-						</S.ImageListContainer>
-					) : (
-						<>
-							<h2>Loading...</h2>
-							<Loader type="Puff" color="#265077" height="60" width="60" />
-						</>
-					)
+					<S.ImageListContainer>
+						{images.map((image) => (
+							<S.ImageThumbNail key={image.imageid}>
+								<img
+									src={image.thumbnailurl}
+									thumbnail={image.thumbnailurl}
+									imageurl={image.imageurl}
+									description={image.description}
+									alt="search result"
+									id={image.imageid}
+									onClick={this.handleShow}
+								/>
+							</S.ImageThumbNail>
+						))}
+					</S.ImageListContainer>
 				) : (
 					<h2>No Images in your library</h2>
 				)}
